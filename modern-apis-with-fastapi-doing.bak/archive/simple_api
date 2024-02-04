@@ -1,0 +1,44 @@
+from typing import Optional
+import fastapi
+import uvicorn
+
+api = fastapi.FastAPI()
+
+
+@api.get("/")
+def index():
+    content = """
+        <html>
+            <body style='padding: 10px;'>
+                <h1>Welcome to the API</h1>
+                <div>
+                    Try it out:
+                    <ul>
+                        <li><a href='/api/calculate?x=1&y=2'>/api/calculate?x=1&y=2</a></li>
+                        <li><a href='/api/calculate?x=1&y=2&z=3'>/api/calculate?x=1&y=2&z=3</a></li>
+                        <li><a href='/api/calculate?x=1&y=2&z=0'>/api/calculate?x=1&y=2&z=0</a></li>
+                    </ul>
+                </div>
+            </body>
+        </html>
+    """
+    return fastapi.responses.HTMLResponse(content)
+
+
+@api.get("/api/calculate")
+def calculate(x: int, y: int, z: Optional[int] = None):
+    if z is not None and z == 0:
+        return fastapi.responses.JSONResponse(
+            status_code=400,
+            content={"error": "ERROR: z cannot be zero."}
+        )
+
+    result = x + y
+
+    if z is not None:
+        result /= z
+
+    return result
+
+
+uvicorn.run(api, port=8000, host="127.0.0.1")
