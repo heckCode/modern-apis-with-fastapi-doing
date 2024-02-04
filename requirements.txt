@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+httpx
+starlette
+jinja2
+pydantic
+requests
+pytest
+pytest-asyncio
+pytest-mock
