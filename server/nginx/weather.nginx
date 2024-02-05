@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name weatherapi.talkpython.com 128.199.4.0;
+    server_name tremenda.weatherapi.com 64.225.0.220;
     server_tokens off;
     charset utf-8;
 
@@ -8,13 +8,13 @@ server {
         gzip            on;
         gzip_buffers    8 256k;
 
-        alias /apps/app_repo/ch08-deployment/static;
+        alias /apps/app_repo/static;
         expires 365d;
     }
     location / {
-        try_files $uri @yourapplication;
+        try_files $uri @weatherapi_proxy;
     }
-    location @yourapplication {
+    location @weatherapi_proxy {
         gzip            on;
         gzip_buffers    8 256k;
 
